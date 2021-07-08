@@ -5,19 +5,46 @@
 extern "C" {
 #endif
 
-float** m_projectionMatrix(float view_angle, float aspect_ratio, float near, float far);
+#define M_PI 3.14159265359
+#define RADIAN2DEGREE(R) R * 180.f / M_PI 
+#define DEGREE2RADIAN(D) D * M_PI / 180.f
 
-float** m_identityMatrix();
+typedef struct _Matrix 
+{
+    unsigned short rows;
+    unsigned short cols;
+    float data[4][4];
 
-float** m_xRotationMatrix(float angle);
+} m_Matrix;
 
-float** m_yRotationMatrix(float angle);
+typedef struct _Vec 
+{
+    unsigned short dim;
+    float data[3];
 
-float** m_zRotationMatrix(float angle);
+} m_Vec;
 
-float** m_multiplyMatrix4x4(float matrix1[4][4], float matrix2[4][4]);
+m_Matrix* m_createMatrix(unsigned short rows, unsigned short cols);
 
-float* mult(float vec[4], float projection_matrix[4][4]);
+void m_destroyMatrix(m_Matrix* matrix);
+
+m_Vec* m_createVector(unsigned short dimension);
+
+void m_destroyVector(m_Vec* matrix);
+
+void m_projectionMatrix(m_Matrix* matrix, float view_angle, float aspect_ratio, float near, float far);
+
+void m_identityMatrix(m_Matrix* matrix);
+
+void m_xRotationMatrix(m_Matrix* matrix, float angle);
+
+void m_yRotationMatrix(m_Matrix* matrix, float angle);
+
+void m_zRotationMatrix(m_Matrix* matrix, float angle);
+
+void m_multiplyMatrix4x4(m_Matrix* result, m_Matrix* matrix1, m_Matrix* matrix2);
+
+void m_mult(m_Matrix* matrix, m_Vec* vec);
 
 #ifdef __cplusplus
 }
