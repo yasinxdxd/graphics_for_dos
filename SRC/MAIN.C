@@ -1,26 +1,12 @@
 #include "GFDOS.H"
 #include "GFDUTILS.H"
 #include "GFDLDR.H"
-#include <math.h>
-//#include <stdio.h>
+#include "GFDMATH.H"
+#include <stdio.h>
 int main(int argc, char* argv[])
 {
-		
 	gfdInit();
-    //printf("%c\n", argv[1]);
-    //gfdDrawPixel(111, 150);
 
-    /*
-    float vertices[] = 
-    {
-        -0.5, 0.0, 0.0,
-        0,5, 0.0, 0.0,
-        0.0, 0.5, 0.0
-    };*/
-
-    gfdSetPixelColor(GFD_CLR_LIGHT_BLUE);
-
-    //gfdDrawLine(0, 0, 320, 200);
     
 
     gfdSTLHeader header;
@@ -28,25 +14,92 @@ int main(int argc, char* argv[])
 
     triangles = gfdLoadSTL("../RES/cubcub.stl", &header);
 
-    //printf("%d", sizeof(*triangles));
+    m_Vec* vertex_pos1 = m_createVector(3);
+    m_Vec* vertex_pos2 = m_createVector(3);
+    m_Vec* vertex_pos3 = m_createVector(3);
 
-    //printf("%f", triangles[0].vertex1[0]);
+    vertex_pos1->data[0] = -0.1f;
+    vertex_pos1->data[1] = -0.1f;
+    vertex_pos1->data[2] = 0.0f;
 
+    vertex_pos2->data[0] = 0.1f;
+    vertex_pos2->data[1] = -0.1f;
+    vertex_pos2->data[2] = 0.0f;
+
+    vertex_pos3->data[0] = 0.0f;
+    vertex_pos3->data[1] = 0.1f;
+    vertex_pos3->data[2] = 0.0f;
     
-    unsigned int i;
-    for(i = 0; i < header.triangles_number; i++)
+    m_Matrix* projection_matrix = m_createMatrix(4, 4);
+    m_Matrix* z_rotation_matrix = m_createMatrix(4, 4);
+    m_Matrix* MVP = m_createMatrix(4, 4);
+
+
+
+
+
+    float a = 0.5f;
+    float b = 0.1f;
+    while(b < 1)
     {
+
+        m_identityMatrix(projection_matrix);
+        m_identityMatrix(z_rotation_matrix);
+        m_identityMatrix(MVP);
+
+        m_projectionMatrix(projection_matrix, DEGREE2RADIAN(45.f), 320/200, 0.1f, 100.f);
+        m_zRotationMatrix(z_rotation_matrix, DEGREE2RADIAN(b));
+        m_multiplyMatrix4x4(MVP, projection_matrix, z_rotation_matrix);
         
-        gfdDrawTriangle(triangles[i].vertex1[0], triangles[i].vertex1[1],
-                        triangles[i].vertex2[0], triangles[i].vertex2[1],
-                        triangles[i].vertex3[0], triangles[i].vertex3[1]);
+        m_mult(MVP, vertex_pos1);
+        m_mult(MVP, vertex_pos2);
+        m_mult(MVP, vertex_pos3);
+
+        gfdSetPixelColor(GFD_CLR_LIGHT_BLUE);
+        gfdDrawTriangle(vertex_pos1->data[0], vertex_pos1->data[1],
+                        vertex_pos2->data[0], vertex_pos2->data[1],
+                        vertex_pos3->data[0], vertex_pos3->data[1]);
+
+        gfdSetPixelColor(GFD_CLR_BLACK);
+        gfdClear();
+
+        
+
+        b += 0.1;
+
     }
+
+
     
 
+
+
+    m_destroyMatrix(projection_matrix);
+    m_destroyMatrix(z_rotation_matrix);
+    m_destroyMatrix(MVP);
+
+    m_destroyVector(vertex_pos1);
+    m_destroyVector(vertex_pos2);
+    m_destroyVector(vertex_pos3);
+
+
+
+    /*printf("%f\n%f\n%f\n%f\n%f\n%f\n", vertex1[0], vertex1[1],
+                                        vertex2[0], vertex2[1],
+                                        vertex3[0], vertex3[2]);*/
     free(triangles);
 
-    //gfdDrawTriangle(10, 25, 14, 80, 47, 61);
-    /*
+
+    //gfdDestroy();
+
+    return 0;
+}
+
+
+
+
+/*
+    //DRAW A CIRCLE:
     float x = 100, y = 100;
     float x1 = 100, y1 = 100;
     float r = 1;
@@ -62,10 +115,4 @@ int main(int argc, char* argv[])
 		else
 			gfdDrawPixel((unsigned int)x1, (unsigned int)y1);
     }
-	*/
-    
-
-    gfdDestroy();
-
-    return 0;
-}
+*/
