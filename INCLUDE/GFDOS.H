@@ -71,7 +71,7 @@ typedef unsigned int       u32;
 typedef unsigned long long u64;
 
 /* Check for GCC */
-#if (__GNUC__ < 4)
+#if (__GNUC__ > 4)
 #define _gfd_binary_prefix_ 0b
 #else
 #define _gfd_binary_prefix_
@@ -108,6 +108,10 @@ typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEPROC)(float x0, float y0, float x1, fl
 GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle;
 #define gfdDrawTriangle graphics_for_dos_gfdDrawTriangle
 
+typedef void (GFDAPIENTRYP GFDCLEARPROC)(void);
+GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear;
+#define gfdClear graphics_for_dos_gfdClear
+
 /* Mouse/Keyboard Definitions */
 
 #define GFD_KEY_SPACE 0x20
@@ -117,6 +121,33 @@ GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle;
 #define GFD_KEY_D 0x44
 #define GFD_KEY_E 0x45
 #define GFD_KEY_F 0x46
+#define GFD_KEY_G 0x47
+#define GFD_KEY_H 0x48
+#define GFD_KEY_I 0x49
+#define GFD_KEY_J 0x4A
+#define GFD_KEY_K 0x4B
+#define GFD_KEY_L 0x4C
+#define GFD_KEY_M 0x4D
+#define GFD_KEY_N 0x4E
+#define GFD_KEY_O 0x4F
+#define GFD_KEY_P 0x50
+#define GFD_KEY_Q 0x51
+#define GFD_KEY_R 0x52
+#define GFD_KEY_S 0x53
+#define GFD_KEY_T 0x54
+#define GFD_KEY_U 0x55
+#define GFD_KEY_V 0x56
+#define GFD_KEY_W 0x57
+#define GFD_KEY_X 0x58
+#define GFD_KEY_Y 0x59
+#define GFD_KEY_Z 0x5A
+
+
+
+
+
+
+
 
 /* Color Definitions */
 
