@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
         //gfdClear();
         
 
-        gfdSetPixelColor(GFD_CLR_WHITE);
+        gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
         unsigned int i;
         for(i = 0; i < header.triangles_number; i++)
         {   
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
     
 
 
-    free(triangles);
+    gfdFreeSTL(triangles);
     //gfdDestroy();
 
     return 0;

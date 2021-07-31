@@ -53,4 +53,10 @@ GFD_FORMAT static gfdSTLTriangle* gfdLoadSTL(const char* path, gfdSTLHeader* hea
     return triangles;
 }
 
+GFD_FORMAT static void gfdFreeSTL(gfdSTLTriangle* triangles)
+{
+    free(triangles);
+    triangles = NULL;
+}
+
 #endif//GFD_LOADER_H

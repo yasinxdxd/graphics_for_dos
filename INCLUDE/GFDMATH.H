@@ -20,7 +20,7 @@ typedef struct _Matrix
 typedef struct _Vec 
 {
     unsigned short dim;
-    float data[3];
+    float data[4];
 
 } m_Vec;
 

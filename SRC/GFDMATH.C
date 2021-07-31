@@ -169,6 +169,11 @@ void m_mult(m_Matrix* matrix, m_Vec* vec)
     vec->data[0] = matrix->data[0][0] * vec->data[0] + matrix->data[0][1] * vec->data[1] + matrix->data[0][2] * vec->data[2] + matrix->data[0][3];
     vec->data[1] = matrix->data[1][0] * vec->data[0] + matrix->data[1][1] * vec->data[1] + matrix->data[1][2] * vec->data[2] + matrix->data[1][3];
     vec->data[2] = matrix->data[2][0] * vec->data[0] + matrix->data[2][1] * vec->data[1] + matrix->data[2][2] * vec->data[2] + matrix->data[2][3];
-    //matrix->data[3][2] * vec[2];
+    vec->data[3] = matrix->data[3][0] * vec->data[0] + matrix->data[3][1] * vec->data[1] + matrix->data[3][2] * vec->data[2] + matrix->data[3][3];
+    
+    vec->data[0] /= vec->data[3];
+    vec->data[1] /= vec->data[3];
+    vec->data[2] /= vec->data[3];
+    vec->data[3] = 1;
 }
 

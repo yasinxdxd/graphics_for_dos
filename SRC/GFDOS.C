@@ -11,4 +11,5 @@ GFD_CORE GFDDRAWPIXELPROC graphics_for_dos_gfdDrawPixel = dec_gfdDrawPixel;
 GFD_CORE GFDSETPIXELCOLORPROC graphics_for_dos_gfdSetPixelColor = dec_gfdSetPixelColor;
 GFD_CORE GFDDRAWLINEPROC graphics_for_dos_gfdDrawLine = dec_gfdDrawLine;
 GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle = dec_gfdDrawTriangle;
+GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled = dec_gfdDrawTriangleFilled;
 GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear = dec_gfdClear;

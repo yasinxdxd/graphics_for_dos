@@ -6,6 +6,16 @@ extern "C" {
 #endif
 
 /**
+ * 
+ * @brief 
+**/
+typedef struct _Pair_int_int
+{
+    int first;
+    int second;
+} Pair_ii;
+
+/**
  * @param NO_PARAMETER
  * @brief 
 **/
@@ -22,6 +32,24 @@ int m_imax(int a, int b);
  * @brief 
 **/
 float m_fmax(float a, float b);
+
+/**
+ * @param NO_PARAMETER
+ * @brief 
+**/
+unsigned int m_umin(unsigned int a, unsigned int b);
+
+/**
+ * @param NO_PARAMETER
+ * @brief 
+**/
+int m_imin(int a, int b);
+
+/**
+ * @param NO_PARAMETER
+ * @brief 
+**/
+float m_fmin(float a, float b);
 
 /**
  * @param NO_PARAMETER

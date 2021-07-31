@@ -54,6 +54,15 @@ void dec_gfdSetPixelColor(unsigned char color)
 
 }
 
+struct PRIVATE _dec_Rasterizer
+{
+    Pair_ii* xy;
+    unsigned int size;
+
+} _Rasterizer;
+
+
+
 //"mov ah, 0x0C\n"       //change the color --> for color function.
 
 void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
@@ -89,15 +98,25 @@ void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
 		printf("7.9:%d\n", (int)m_fround(7.9));*/
 #endif
 
-        unsigned int i;
-        for(i = 1; i <= steps; i++)
-        {
+    Pair_ii x_and_y_values[steps];
+
+    unsigned int i;
+    for(i = 1; i <= steps; i++)
+    {
+        Pair_ii x_and_y;
+        x_and_y.first = m_fround(pixel_x0);
+        x_and_y.second = m_fround(pixel_y0);
+        x_and_y_values[i-1] = x_and_y;
+
 #ifndef __dj_include_stdio_h_            
-            dec_gfdDrawPixel(m_fround(pixel_x0), m_fround(pixel_y0));
+        dec_gfdDrawPixel(m_fround(pixel_x0), m_fround(pixel_y0));
 #endif
-            pixel_x0 += index_x;
-            pixel_y0 += index_y;
-        }
+        pixel_x0 += index_x;
+        pixel_y0 += index_y;
+    }
+
+    _Rasterizer.size = steps;
+    _Rasterizer.xy = &x_and_y_values[0];
 
 }
 
@@ -107,6 +126,11 @@ void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float
     dec_gfdDrawLine(x0, y0, x1, y1);
     dec_gfdDrawLine(x1, y1, x2, y2);
     dec_gfdDrawLine(x2, y2, x0, y0);
+}
+
+void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2)
+{
+
 }
 
 void dec_gfdClear()

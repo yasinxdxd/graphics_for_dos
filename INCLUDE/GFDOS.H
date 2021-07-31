@@ -108,6 +108,10 @@ typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEPROC)(float x0, float y0, float x1, fl
 GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle;
 #define gfdDrawTriangle graphics_for_dos_gfdDrawTriangle
 
+typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEFILLEDPROC)(float x0, float y0, float x1, float y1, float x2, float y2);
+GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled;
+#define gfdDrawTriangleFilled graphics_for_dos_gfdDrawTriangleFilled
+
 typedef void (GFDAPIENTRYP GFDCLEARPROC)(void);
 GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear;
 #define gfdClear graphics_for_dos_gfdClear
@@ -156,23 +160,23 @@ GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear;
 //BASIC COLORS	I	R	G	B	COLOR
 
 //DULL INTENSITY
-#define GFD_CLR_BLACK           /*gfdbin*/(0000)
-#define GFD_CLR_BLUE            /*gfdbin*/(0001)
-#define GFD_CLR_GREEN           /*gfdbin*/(0010)
-#define GFD_CLR_CYAN            /*gfdbin*/(0011)
-#define GFD_CLR_RED             /*gfdbin*/(0100)
-#define GFD_CLR_MAGENTA         /*gfdbin*/(0101)
-#define GFD_CLR_BROWN           /*gfdbin*/(0110)
-#define GFD_CLR_WHITE           /*gfdbin*/(0111)
-///*BRIGHT*/
-#define GFD_CLR_GRAY            /*gfdbin*/(01000)
-#define GFD_CLR_LIGHT_BLUE      /*gfdbin*/(01001)
-#define GFD_CLR_LIGHT_GREEN     /*gfdbin*/(01010)
-#define GFD_CLR_LIGHT_CYAN      /*gfdbin*/(01011)
-#define GFD_CLR_LIGHT_RED       /*gfdbin*/(01100)
-#define GFD_CLR_LIGHT_MAGENTA   /*gfdbin*/(01101)
-#define GFD_CLR_YELLOW          /*gfdbin*/(01110)
-#define GFD_CLR_INTENSE_WHITE   /*gfdbin*/(01111)
+#define GFD_CLR_BLACK           0x00/*gfdbin(0000)*/
+#define GFD_CLR_BLUE            0x01/*gfdbin(0001)*/
+#define GFD_CLR_GREEN           0x02/*gfdbin(0010)*/
+#define GFD_CLR_CYAN            0x03/*gfdbin(0011)*/
+#define GFD_CLR_RED             0x04/*gfdbin(0100)*/
+#define GFD_CLR_MAGENTA         0x05/*gfdbin(0101)*/
+#define GFD_CLR_BROWN           0x06/*gfdbin(0110)*/
+#define GFD_CLR_WHITE           0x07/*gfdbin(0111)*/
+///*BRIGHT
+#define GFD_CLR_GRAY            0x08/*gfdbin(1000)*/
+#define GFD_CLR_LIGHT_BLUE      0x09/*gfdbin(1001)*/
+#define GFD_CLR_LIGHT_GREEN     0x0A/*gfdbin(1010)*/
+#define GFD_CLR_LIGHT_CYAN      0x0B/*gfdbin(1011)*/
+#define GFD_CLR_LIGHT_RED       0x0C/*gfdbin(1100)*/
+#define GFD_CLR_LIGHT_MAGENTA   0x0D/*gfdbin(1101)*/
+#define GFD_CLR_YELLOW          0x0E/*gfdbin(1110)*/
+#define GFD_CLR_INTENSE_WHITE   0x0F/*gfdbin(1111)*/
 
 
 #ifdef __cplusplus
