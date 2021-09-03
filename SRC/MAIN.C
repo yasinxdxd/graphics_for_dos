@@ -8,8 +8,6 @@ int main(int argc, char* argv[])
 {
 	gfdInit();
 
-    
-
     gfdSTLHeader header;
     gfdSTLTriangle* triangles;
 
@@ -19,15 +17,31 @@ int main(int argc, char* argv[])
     float n = (1) / (2 * tanf(alpha / 2));
     float aspect_ratio = 320.f / 200.f;
     
-    int a = 0;
-    while(a < 1000)
+    while(true)
     {
-        a++;
-
         //CLEAR THE SCREEN
         //gfdSetPixelColor(GFD_CLR_BLACK);
         //gfdClear();
+
+        /*SOME AMAZING KEY INPUT*/
+        int exit = 0;
+        asm volatile(
+            "mov ah, 0x01\n"    //check key is pressed
+            "int 0x16\n"        //apply
+            "mov eax, 0\n"  // if it jumps, eax has to be 0 because at the end we mov eax into exit variable.
+            "jz KEY_IS_NOT_PRESSED\n"   //if(zero flag == 0) jmp 
+            //if key is pressed:
+            "mov ah, 0x01\n"        //check which one(wait for input)
+            "int 0x16\n"            //apply
+            "mov eax, 1\n"
+            "KEY_IS_NOT_PRESSED:\n"
+
+            "mov %0, eax\n"
+            :"=r"(exit)
+        );
         
+        if(exit == 1)
+            break;
 
         gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
         unsigned int i;
@@ -54,11 +68,9 @@ int main(int argc, char* argv[])
         }
     }
 
-    
-
 
     gfdFreeSTL(triangles);
-    //gfdDestroy();
+    gfdDestroy();
 
     return 0;
 }
