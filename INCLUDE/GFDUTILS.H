@@ -6,16 +6,6 @@ extern "C" {
 #endif
 
 /**
- * 
- * @brief 
-**/
-typedef struct _Pair_int_int
-{
-    int first;
-    int second;
-} Pair_ii;
-
-/**
  * @param NO_PARAMETER
  * @brief 
 **/

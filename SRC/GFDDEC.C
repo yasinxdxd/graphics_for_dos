@@ -3,7 +3,7 @@
 //#include <stdio.h>
 /* declarations of our all functions */
 
-int dec_gfdInit()
+int dec_gfdInit(void)
 {
     asm volatile(
     "mov al, 0x13\n"       // 40x25 320x200 256 colors VGA 1
@@ -14,7 +14,7 @@ int dec_gfdInit()
     return 0;
 }
 
-void dec_gfdDestroy()
+void dec_gfdDestroy(void)
 {
     asm volatile(
     "mov ax, 0x03\n"	//80x16  text mode
@@ -31,8 +31,8 @@ void dec_gfdDrawPixel(unsigned int x, unsigned int y)
         asm volatile(
         "mov al, [0x3080]\n"
         "mov ah, 0x0C\n"        // to set the color.    
-        "mov cx, %0\n"          //x pos
-        "mov dx, %1\n"          //y pos
+        "mov ecx, %0\n"          //x pos
+        "mov edx, %1\n"          //y pos
         "int 0x10\n"            //draw pixel
         :"=g"(x),"=g"(y)        //parameters as output
         );
@@ -53,15 +53,6 @@ void dec_gfdSetPixelColor(unsigned char color)
     );
 
 }
-
-struct PRIVATE _dec_Rasterizer
-{
-    Pair_ii* xy;
-    unsigned int size;
-
-} _Rasterizer;
-
-
 
 //"mov ah, 0x0C\n"       //change the color --> for color function.
 
@@ -89,24 +80,9 @@ void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
     index_x = delta_x / (float)steps;
 
 
-#ifdef __dj_include_stdio_h_
-        /*printf("steps:%d\n", steps);
-        printf("ix:%f\n", index_x);
-        printf("iy:%f\n", index_y);
-        printf("fix:%d\n", (int)m_fround(index_x));
-        printf("fiy:%d\n", (int)m_fround(index_y));
-		printf("7.9:%d\n", (int)m_fround(7.9));*/
-#endif
-
-    Pair_ii x_and_y_values[steps];
-
     unsigned int i;
     for(i = 1; i <= steps; i++)
     {
-        Pair_ii x_and_y;
-        x_and_y.first = m_fround(pixel_x0);
-        x_and_y.second = m_fround(pixel_y0);
-        x_and_y_values[i-1] = x_and_y;
 
 #ifndef __dj_include_stdio_h_            
         dec_gfdDrawPixel(m_fround(pixel_x0), m_fround(pixel_y0));
@@ -114,9 +90,6 @@ void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
         pixel_x0 += index_x;
         pixel_y0 += index_y;
     }
-
-    _Rasterizer.size = steps;
-    _Rasterizer.xy = &x_and_y_values[0];
 
 }
 
@@ -133,22 +106,16 @@ void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2,
 
 }
 
-void dec_gfdClear()
+void dec_gfdClear(void)
 {
-    /*
     asm volatile(
-    "mov al, 0x13\n"       // 40x25 320x200 256 colors VGA 1
-    "mov ah, 0x0\n"
+    "mov al, 0x00\n"       // set for clear screen
+    "mov ah, 0x06\n"       // set for clear screen
+    "mov bh, 0x00\n"
+    "mov cx, 0x00\n"
+    "mov dx, 0x184F\n"
+    //"rep stosw\n"          // clear video memory
     "int 0x10\n"           // apply configuration.
     );
-    */
-    unsigned int i = 0;
-    for(i = 0; i < SCREEN_WIDTH; i++)
-    {
-        unsigned int j = 0;
-        for(j = 0; j < SCREEN_HEIGHT; j++)
-        {
-            dec_gfdDrawPixel(i, j);
-        }
-    }
+
 }
