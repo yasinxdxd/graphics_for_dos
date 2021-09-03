@@ -19,12 +19,12 @@ extern "C" {
 /**
  * @param NO_PARAMETER
 **/
-int dec_gfdInit();
+int dec_gfdInit(void);
 
 /**
  * @param NO_PARAMETER
 **/
-void dec_gfdDestroy();
+void dec_gfdDestroy(void);
 
 /**
  * @param NO_PARAMETER
@@ -50,12 +50,12 @@ void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float
 /**
  * @param NO_PARAMETER
 **/
-void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2)
+void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2);
 
 /**
  * @param NO_PARAMETER
 **/
-void dec_gfdClear();
+void dec_gfdClear(void);
 
 #ifdef __cplusplus
 }
