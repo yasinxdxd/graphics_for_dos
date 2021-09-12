@@ -1,3 +1,6 @@
 .git
 .vscode
 BUILD/RENDERER.EXE
+RES/*.stl
+RES/*.obj
+RES/*.zip
