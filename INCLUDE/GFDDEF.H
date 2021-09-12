@@ -38,9 +38,35 @@ void dec_gfdDrawPixel(unsigned int x, unsigned int y);
 void dec_gfdSetPixelColor(unsigned char color);
 
 /**
+ * @brief Line information for drawing a line with DDA Line Algorithm.
+**/
+typedef struct
+{
+    int steps;
+    float index_x, index_y;
+    float pixel_x0, pixel_y0;
+
+} DDALineInfo;
+
+/**
+ * @param NO_PARAMETER
+**/
+DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1);
+
+/**
+ * @param NO_PARAMETER
+**/
+DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
+
+/**
  * @param NO_PARAMETER
 **/
 void dec_gfdDrawLine(float x0, float y0, float x1, float y1);
+
+/**
+ * @param NO_PARAMETER
+**/
+void dec_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
 
 /**
  * @param NO_PARAMETER
