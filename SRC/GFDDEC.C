@@ -52,47 +52,85 @@ void dec_gfdSetPixelColor(unsigned char color)
     :"=g"(color)
     );
 
+//"mov ah, 0x0C\n"       //change the color --> for color function.
 }
 
-//"mov ah, 0x0C\n"       //change the color --> for color function.
-
-void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
+DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1)
 {
-    //DDA line algorithm
-
-    float index_x, index_y;
+    DDALineInfo info;
     
     x0 += 1.f;
     y0 -= 1.f;
     x1 += 1.f;
     y1 -= 1.f;
     
-    float pixel_x0 = SCREEN_WIDTH * x0 / 2.f;
-    float pixel_y0 = -SCREEN_HEIGHT * y0 / 2.f;
+    info.pixel_x0 = SCREEN_WIDTH * x0 / 2.f;
+    info.pixel_y0 = -SCREEN_HEIGHT * y0 / 2.f;
     float pixel_x1 = SCREEN_WIDTH * x1 / 2.f;
     float pixel_y1 = -SCREEN_HEIGHT * y1 / 2.f;
 
-    int delta_x = pixel_x1 - pixel_x0;
-    int delta_y = pixel_y1 - pixel_y0;
-    int steps = m_imax(m_iabs(delta_x), m_iabs(delta_y));  //we need to get max delta value to avoid gaps between pixels.
+    int delta_x = pixel_x1 - info.pixel_x0;
+    int delta_y = pixel_y1 - info.pixel_y0;
+    info.steps = m_imax(m_iabs(delta_x), m_iabs(delta_y));  //we need to get max delta value to avoid gaps between pixels.
 
-    index_y = delta_y / (float)steps;
-    index_x = delta_x / (float)steps;
+    info.index_y = delta_y / (float)info.steps;
+    info.index_x = delta_x / (float)info.steps;
 
+    return info;
+
+}
+
+DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
+{
+    DDALineInfo info;
+    
+    info.pixel_x0 = x0;
+    info.pixel_y0 = y0;
+    float pixel_x1 = x1;
+    float pixel_y1 = y1;
+
+    int delta_x = pixel_x1 - info.pixel_x0;
+    int delta_y = pixel_y1 - info.pixel_y0;
+    info.steps = m_imax(m_iabs(delta_x), m_iabs(delta_y));  //we need to get max delta value to avoid gaps between pixels.
+
+    info.index_y = delta_y / (float)info.steps;
+    info.index_x = delta_x / (float)info.steps;
+
+    return info;
+}
+
+void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
+{
+    DDALineInfo info = dec_gfdInfoLine(x0, y0, x1, y1);
 
     unsigned int i;
-    for(i = 1; i <= steps; i++)
+    for(i = 0; i < info.steps; i++)
     {
 
 #ifndef __dj_include_stdio_h_            
-        dec_gfdDrawPixel(m_fround(pixel_x0), m_fround(pixel_y0));
+        dec_gfdDrawPixel(m_fround(info.pixel_x0), m_fround(info.pixel_y0));
 #endif
-        pixel_x0 += index_x;
-        pixel_y0 += index_y;
+        info.pixel_x0 += info.index_x;
+        info.pixel_y0 += info.index_y;
     }
 
 }
 
+void dec_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
+{
+    DDALineInfo info = dec_gfdInfoLineWithoutCoordAbstraction(x0, y0, x1, y1);
+
+    unsigned int i;
+    for(i = 0; i < info.steps; i++)
+    {
+
+#ifndef __dj_include_stdio_h_          
+        dec_gfdDrawPixel(info.pixel_x0, info.pixel_y0);
+#endif
+        info.pixel_x0 += info.index_x;
+        info.pixel_y0 += info.index_y;
+    }
+}
 
 void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float y2)
 {
@@ -103,6 +141,110 @@ void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float
 
 void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2)
 {
+    // the y component of the point which is between other two points according to Y axes.
+    // we need to have the line it doesn't contain that point.
+    // what you're gonna find below is sorting lines up to down...
+    float p1_x, p1_y, p2_x, p2_y, op_x, op_y;
+
+    if(y0 < y1 && y0 > y2)
+    {
+        //point_y = y0;
+        op_x = x0;
+        op_y = y0;
+        p1_x = x1;
+        p1_y = y1;
+        p2_x = x2;
+        p2_y = y2;
+    }
+    else if(y0 < y2 && y0 > y1)
+    {
+        //point_y = y0;
+        op_x = x0;
+        op_y = y0;
+        p1_x = x2;
+        p1_y = y2;
+        p2_x = x1;
+        p2_y = y1;
+    }
+    else if(y1 < y0 && y1 > y2)
+    {
+        op_x = x1;
+        op_y = y1;
+        p1_x = x0;
+        p1_y = y0;
+        p2_x = x2;
+        p2_y = y2;
+    }
+    else if(y1 < y2 && y1 > y0)
+    {
+        op_x = x1;
+        op_y = y1;
+        p1_x = x2;
+        p1_y = y2;
+        p2_x = x0;
+        p2_y = y0;
+    }
+    else if(y2 < y1 && y2 > y0)
+    {
+        op_x = x2;
+        op_y = y2;
+        p1_x = x1;
+        p1_y = y1;
+        p2_x = x0;
+        p2_y = y0;
+    }
+    else
+    {
+        op_x = x2;
+        op_y = y2;
+        p1_x = x0;
+        p1_y = y0;
+        p2_x = x1;
+        p2_y = y1;
+    }
+    // FIXME: line1 has to be higher up. [OK fixed]
+    DDALineInfo info_line1 = dec_gfdInfoLine(p1_x, p1_y, op_x, op_y); // up
+    DDALineInfo info_line3 = dec_gfdInfoLine(op_x, op_y, p2_x, p2_y); // down
+    DDALineInfo info_line2 = dec_gfdInfoLine(p2_x, p2_y, p1_x, p1_y); // middle
+
+    int step = info_line1.steps + info_line3.steps;
+    float arrx[step];
+    float arry[step];
+
+    //save x and y values of line1
+    unsigned int i1;
+    for(i1 = 0; i1 < info_line1.steps; i1++)
+    {
+        info_line1.pixel_x0 += info_line1.index_x;
+        info_line1.pixel_y0 += info_line1.index_y;
+        arrx[i1] = info_line1.pixel_x0;
+        arry[i1] = info_line1.pixel_y0;
+    }
+
+    //save x and y values of line3
+    unsigned int i3;
+    for(i3 = 0; i3 < info_line3.steps; i3++)
+    {
+        info_line3.pixel_x0 += info_line3.index_x;
+        info_line3.pixel_y0 += info_line3.index_y;
+        unsigned int i = info_line1.steps + i3;
+        arrx[i] = info_line3.pixel_x0;
+        arry[i] = info_line3.pixel_y0;
+    }
+
+    unsigned int i;
+    for(i = 0; i < step; i++)
+    {
+        //FIX ME: improve filling algorithm. (there is some gaps.)
+        //get common y values for line 2 and line 1-line 3, or something like that :^)
+        dec_gfdDrawLineWithoutCoordAbstraction(m_fround(info_line2.pixel_x0), m_fround(info_line2.pixel_y0), m_fround(arrx[i]), m_fround(arry[i]));
+        if(i < info_line2.steps)
+        {
+            info_line2.pixel_x0 += info_line2.index_x;
+            info_line2.pixel_y0 += info_line2.index_y;
+        }
+        
+    }
 
 }
 
