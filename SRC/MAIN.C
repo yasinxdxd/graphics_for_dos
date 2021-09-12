@@ -11,19 +11,21 @@ int main(int argc, char* argv[])
     gfdSTLHeader header;
     gfdSTLTriangle* triangles;
 
-    triangles = gfdLoadSTL("../RES/cubcub2.stl", &header);
+    triangles = gfdLoadSTL("../RES/Cap.stl", &header);
 
     float alpha = DEGREE2RADIAN(45.f);
     float n = (1) / (2 * tanf(alpha / 2));
     float aspect_ratio = 320.f / 200.f;
     
+    /*
+    */
     while(true)
     {
         //CLEAR THE SCREEN
         //gfdSetPixelColor(GFD_CLR_BLACK);
         //gfdClear();
 
-        /*SOME AMAZING KEY INPUT*/
+        //SOME AMAZING KEY INPUT
         int exit = 0;
         asm volatile(
             "mov ah, 0x01\n"    //check key is pressed
@@ -43,7 +45,8 @@ int main(int argc, char* argv[])
         if(exit == 1)
             break;
 
-        gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
+        //gfdClear();
+        gfdSetPixelColor(GFD_CLR_LIGHT_GREEN);
         unsigned int i;
         for(i = 0; i < header.triangles_number; i++)
         {   
@@ -61,14 +64,15 @@ int main(int argc, char* argv[])
             
 
             //DRAWING
-            gfdDrawTriangle(triangles[i].vertex1[0], triangles[i].vertex1[1],
+            gfdDrawTriangleFilled(triangles[i].vertex1[0], triangles[i].vertex1[1],
                             triangles[i].vertex2[0], triangles[i].vertex2[1],
                             triangles[i].vertex3[0], triangles[i].vertex3[1]);
-
         }
     }
-
-
+    
+    //gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
+    //gfdDrawTriangleFilled(-0.5, -0.5, 0.0, 0.5, 0.5, -0.3);
+    //gfdDrawTriangle(-0.1, -0.1, 0.0, 0.1, 0.1, -0.1);
     gfdFreeSTL(triangles);
     gfdDestroy();
 
