@@ -80,6 +80,31 @@ DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1)
 
 }
 
+DDALineInfo dec_gfdInfoLineStepY(float x0, float y0, float x1, float y1)
+{
+    DDALineInfo info;
+    
+    x0 += 1.f;
+    y0 -= 1.f;
+    x1 += 1.f;
+    y1 -= 1.f;
+    
+    info.pixel_x0 = SCREEN_WIDTH * x0 / 2.f;
+    info.pixel_y0 = -SCREEN_HEIGHT * y0 / 2.f;
+    float pixel_x1 = SCREEN_WIDTH * x1 / 2.f;
+    float pixel_y1 = -SCREEN_HEIGHT * y1 / 2.f;
+
+    int delta_x = pixel_x1 - info.pixel_x0;
+    int delta_y = pixel_y1 - info.pixel_y0;
+    info.steps = m_iabs(delta_y); // we always get y as steps value, because we will rasterize horizontaly.
+
+    info.index_y = delta_y / (float)info.steps;
+    info.index_x = delta_x / (float)info.steps;
+
+    return info;
+
+}
+
 DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
 {
     DDALineInfo info;
@@ -203,11 +228,13 @@ void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2,
         p2_y = y1;
     }
     // FIXME: line1 has to be higher up. [OK fixed]
-    DDALineInfo info_line1 = dec_gfdInfoLine(p1_x, p1_y, op_x, op_y); // up
-    DDALineInfo info_line3 = dec_gfdInfoLine(op_x, op_y, p2_x, p2_y); // down
-    DDALineInfo info_line2 = dec_gfdInfoLine(p2_x, p2_y, p1_x, p1_y); // middle
+    DDALineInfo info_line1 = dec_gfdInfoLineStepY(p1_x, p1_y, op_x, op_y); // up
+    DDALineInfo info_line3 = dec_gfdInfoLineStepY(op_x, op_y, p2_x, p2_y); // down
+    DDALineInfo info_line2 = dec_gfdInfoLineStepY(p1_x, p1_y, p2_x, p2_y); // middle
 
     int step = info_line1.steps + info_line3.steps;
+    //printf("%d\n", step);
+    //printf("%d\n", info_line2.steps);
     float arrx[step];
     float arry[step];
 
@@ -235,15 +262,10 @@ void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2,
     unsigned int i;
     for(i = 0; i < step; i++)
     {
-        //FIX ME: improve filling algorithm. (there is some gaps.)
-        //get common y values for line 2 and line 1-line 3, or something like that :^)
-        dec_gfdDrawLineWithoutCoordAbstraction(m_fround(info_line2.pixel_x0), m_fround(info_line2.pixel_y0), m_fround(arrx[i]), m_fround(arry[i]));
-        if(i < info_line2.steps)
-        {
-            info_line2.pixel_x0 += info_line2.index_x;
-            info_line2.pixel_y0 += info_line2.index_y;
-        }
+        info_line2.pixel_x0 += info_line2.index_x;
+        info_line2.pixel_y0 += info_line2.index_y;
         
+        dec_gfdDrawLineWithoutCoordAbstraction(m_fround(info_line2.pixel_x0), m_fround(info_line2.pixel_y0), m_fround(arrx[i]), m_fround(info_line2.pixel_y0));
     }
 
 }

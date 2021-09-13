@@ -56,6 +56,11 @@ DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1);
 /**
  * @param NO_PARAMETER
 **/
+DDALineInfo dec_gfdInfoLineStepY(float x0, float y0, float x1, float y1);
+
+/**
+ * @param NO_PARAMETER
+**/
 DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
 
 /**

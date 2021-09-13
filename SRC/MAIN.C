@@ -46,7 +46,11 @@ int main(int argc, char* argv[])
             break;
 
         //gfdClear();
-        gfdSetPixelColor(GFD_CLR_LIGHT_GREEN);
+        //gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
+        //gfdDrawTriangleFilled(0.0, -0.5, -0.5, 0.7, 0.5, 0.7);
+
+
+        gfdSetPixelColor(GFD_CLR_RED);
         unsigned int i;
         for(i = 0; i < header.triangles_number; i++)
         {   
@@ -68,11 +72,13 @@ int main(int argc, char* argv[])
                             triangles[i].vertex2[0], triangles[i].vertex2[1],
                             triangles[i].vertex3[0], triangles[i].vertex3[1]);
         }
+        
     }
     
     //gfdSetPixelColor(GFD_CLR_INTENSE_WHITE);
-    //gfdDrawTriangleFilled(-0.5, -0.5, 0.0, 0.5, 0.5, -0.3);
-    //gfdDrawTriangle(-0.1, -0.1, 0.0, 0.1, 0.1, -0.1);
+    //gfdDrawTriangleFilled(0.0, -0.5, -0.5, -0.8, -0.1, -0.7);
+    //gfdSetPixelColor(GFD_CLR_LIGHT_MAGENTA);
+    //gfdDrawTriangle(0.0, -0.5, -0.5, -0.8, -0.1, -0.7);
     gfdFreeSTL(triangles);
     gfdDestroy();
 
