@@ -1,7 +1,7 @@
 #include "GFDDEF.H"
 #include "GFDUTILS.H"
 //#include <stdio.h>
-/* declarations of our all functions */
+/* definitions of our all functions */
 
 int def_gfdInit(void)
 {
