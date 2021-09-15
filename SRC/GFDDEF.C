@@ -3,7 +3,7 @@
 //#include <stdio.h>
 /* declarations of our all functions */
 
-int dec_gfdInit(void)
+int def_gfdInit(void)
 {
     asm volatile(
     "mov al, 0x13\n"       // 40x25 320x200 256 colors VGA 1
@@ -14,7 +14,7 @@ int dec_gfdInit(void)
     return 0;
 }
 
-void dec_gfdDestroy(void)
+void def_gfdDestroy(void)
 {
     asm volatile(
     "mov ax, 0x03\n"	//80x16  text mode
@@ -24,7 +24,7 @@ void dec_gfdDestroy(void)
     //system("cls");
 }
 
-void dec_gfdDrawPixel(unsigned int x, unsigned int y)
+void def_gfdDrawPixel(unsigned int x, unsigned int y)
 {
     //if (x < 320 && x >= 0 && y < 200 && y >= 0)
     {
@@ -41,7 +41,7 @@ void dec_gfdDrawPixel(unsigned int x, unsigned int y)
 
 }
 
-void dec_gfdSetPixelColor(unsigned char color)
+void def_gfdSetPixelColor(unsigned char color)
 {
     //printf("%d", color);
     asm(
@@ -55,7 +55,7 @@ void dec_gfdSetPixelColor(unsigned char color)
 //"mov ah, 0x0C\n"       //change the color --> for color function.
 }
 
-DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1)
+DDALineInfo def_gfdInfoLine(float x0, float y0, float x1, float y1)
 {
     DDALineInfo info;
     
@@ -80,7 +80,7 @@ DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1)
 
 }
 
-DDALineInfo dec_gfdInfoLineStepY(float x0, float y0, float x1, float y1)
+DDALineInfo def_gfdInfoLineStepY(float x0, float y0, float x1, float y1)
 {
     DDALineInfo info;
     
@@ -105,7 +105,7 @@ DDALineInfo dec_gfdInfoLineStepY(float x0, float y0, float x1, float y1)
 
 }
 
-DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
+DDALineInfo def_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
 {
     DDALineInfo info;
     
@@ -124,16 +124,16 @@ DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int
     return info;
 }
 
-void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
+void def_gfdDrawLine(float x0, float y0, float x1, float y1)
 {
-    DDALineInfo info = dec_gfdInfoLine(x0, y0, x1, y1);
+    DDALineInfo info = def_gfdInfoLine(x0, y0, x1, y1);
 
     unsigned int i;
     for(i = 0; i < info.steps; i++)
     {
 
 #ifndef __dj_include_stdio_h_            
-        dec_gfdDrawPixel(m_fround(info.pixel_x0), m_fround(info.pixel_y0));
+        def_gfdDrawPixel(m_fround(info.pixel_x0), m_fround(info.pixel_y0));
 #endif
         info.pixel_x0 += info.index_x;
         info.pixel_y0 += info.index_y;
@@ -141,30 +141,30 @@ void dec_gfdDrawLine(float x0, float y0, float x1, float y1)
 
 }
 
-void dec_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
+void def_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
 {
-    DDALineInfo info = dec_gfdInfoLineWithoutCoordAbstraction(x0, y0, x1, y1);
+    DDALineInfo info = def_gfdInfoLineWithoutCoordAbstraction(x0, y0, x1, y1);
 
     unsigned int i;
     for(i = 0; i < info.steps; i++)
     {
 
 #ifndef __dj_include_stdio_h_          
-        dec_gfdDrawPixel(info.pixel_x0, info.pixel_y0);
+        def_gfdDrawPixel(info.pixel_x0, info.pixel_y0);
 #endif
         info.pixel_x0 += info.index_x;
         info.pixel_y0 += info.index_y;
     }
 }
 
-void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float y2)
+void def_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float y2)
 {
-    dec_gfdDrawLine(x0, y0, x1, y1);
-    dec_gfdDrawLine(x1, y1, x2, y2);
-    dec_gfdDrawLine(x2, y2, x0, y0);
+    def_gfdDrawLine(x0, y0, x1, y1);
+    def_gfdDrawLine(x1, y1, x2, y2);
+    def_gfdDrawLine(x2, y2, x0, y0);
 }
 
-void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2)
+void def_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2)
 {
     // the y component of the point which is between other two points according to Y axes.
     // we need to have the line it doesn't contain that point.
@@ -228,9 +228,9 @@ void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2,
         p2_y = y1;
     }
     // FIXME: line1 has to be higher up. [OK fixed]
-    DDALineInfo info_line1 = dec_gfdInfoLineStepY(p1_x, p1_y, op_x, op_y); // up
-    DDALineInfo info_line3 = dec_gfdInfoLineStepY(op_x, op_y, p2_x, p2_y); // down
-    DDALineInfo info_line2 = dec_gfdInfoLineStepY(p1_x, p1_y, p2_x, p2_y); // middle
+    DDALineInfo info_line1 = def_gfdInfoLineStepY(p1_x, p1_y, op_x, op_y); // up
+    DDALineInfo info_line3 = def_gfdInfoLineStepY(op_x, op_y, p2_x, p2_y); // down
+    DDALineInfo info_line2 = def_gfdInfoLineStepY(p1_x, p1_y, p2_x, p2_y); // middle
 
     int step = info_line1.steps + info_line3.steps;
     //printf("%d\n", step);
@@ -265,12 +265,12 @@ void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2,
         info_line2.pixel_x0 += info_line2.index_x;
         info_line2.pixel_y0 += info_line2.index_y;
         
-        dec_gfdDrawLineWithoutCoordAbstraction(m_fround(info_line2.pixel_x0), m_fround(info_line2.pixel_y0), m_fround(arrx[i]), m_fround(info_line2.pixel_y0));
+        def_gfdDrawLineWithoutCoordAbstraction(m_fround(info_line2.pixel_x0), m_fround(info_line2.pixel_y0), m_fround(arrx[i]), m_fround(info_line2.pixel_y0));
     }
 
 }
 
-void dec_gfdClear(void)
+void def_gfdClear(void)
 {
     asm volatile(
     "mov al, 0x00\n"       // set for clear screen

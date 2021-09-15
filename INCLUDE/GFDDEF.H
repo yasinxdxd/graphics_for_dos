@@ -16,30 +16,15 @@ extern "C" {
  * @author Muhammed Yasinhan Yaşar
 **/
 
-/**
- * @param NO_PARAMETER
-**/
-int dec_gfdInit(void);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDestroy(void);
+int def_gfdInit(void);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDrawPixel(unsigned int x, unsigned int y);
+void def_gfdDestroy(void);
 
-/**
- * @param NO_PARAMETER
- * @brief 
-**/
-void dec_gfdSetPixelColor(unsigned char color);
+void def_gfdDrawPixel(unsigned int x, unsigned int y);
 
-/**
- * @brief Line information for drawing a line with DDA Line Algorithm.
-**/
+void def_gfdSetPixelColor(unsigned char color);
+
 typedef struct
 {
     int steps;
@@ -48,45 +33,21 @@ typedef struct
 
 } DDALineInfo;
 
-/**
- * @param NO_PARAMETER
-**/
-DDALineInfo dec_gfdInfoLine(float x0, float y0, float x1, float y1);
+DDALineInfo def_gfdInfoLine(float x0, float y0, float x1, float y1);
 
-/**
- * @param NO_PARAMETER
-**/
-DDALineInfo dec_gfdInfoLineStepY(float x0, float y0, float x1, float y1);
+DDALineInfo def_gfdInfoLineStepY(float x0, float y0, float x1, float y1);
 
-/**
- * @param NO_PARAMETER
-**/
-DDALineInfo dec_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
+DDALineInfo def_gfdInfoLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDrawLine(float x0, float y0, float x1, float y1);
+void def_gfdDrawLine(float x0, float y0, float x1, float y1);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
+void def_gfdDrawLineWithoutCoordAbstraction(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float y2);
+void def_gfdDrawTriangle(float x0, float y0, float x1, float y1, float x2, float y2);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2);
+void def_gfdDrawTriangleFilled(float x0, float y0, float x1, float y1, float x2, float y2);
 
-/**
- * @param NO_PARAMETER
-**/
-void dec_gfdClear(void);
+void def_gfdClear(void);
 
 #ifdef __cplusplus
 }

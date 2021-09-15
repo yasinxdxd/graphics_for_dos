@@ -5,11 +5,11 @@
 
 //GFD_ATTR_FAST_NOINLINE
 
-GFD_CORE GFDINITPROC graphics_for_dos_gfdInit = dec_gfdInit;
-GFD_CORE GFDDESTROYPROC graphics_for_dos_gfdDestroy = dec_gfdDestroy;
-GFD_CORE GFDDRAWPIXELPROC graphics_for_dos_gfdDrawPixel = dec_gfdDrawPixel;
-GFD_CORE GFDSETPIXELCOLORPROC graphics_for_dos_gfdSetPixelColor = dec_gfdSetPixelColor;
-GFD_CORE GFDDRAWLINEPROC graphics_for_dos_gfdDrawLine = dec_gfdDrawLine;
-GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle = dec_gfdDrawTriangle;
-GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled = dec_gfdDrawTriangleFilled;
-GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear = dec_gfdClear;
+GFD_CORE GFDINITPROC graphics_for_dos_gfdInit = def_gfdInit;
+GFD_CORE GFDDESTROYPROC graphics_for_dos_gfdDestroy = def_gfdDestroy;
+GFD_CORE GFDDRAWPIXELPROC graphics_for_dos_gfdDrawPixel = def_gfdDrawPixel;
+GFD_CORE GFDSETPIXELCOLORPROC graphics_for_dos_gfdSetPixelColor = def_gfdSetPixelColor;
+GFD_CORE GFDDRAWLINEPROC graphics_for_dos_gfdDrawLine = def_gfdDrawLine;
+GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle = def_gfdDrawTriangle;
+GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled = def_gfdDrawTriangleFilled;
+GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear = def_gfdClear;
