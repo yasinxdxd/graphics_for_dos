@@ -82,42 +82,100 @@ typedef double f64;
 #define _gfdbin(x) _gfd_binary_prefix_##x
 #define gfdbin(bin) (int) _gfdbin(bin)
 
-/* Core Struct Definitions */
-
 /* Core Function Definitions */
 
+/**
+ * @author Muhammed Yasinhan Yaşar. (yasinxdxd)
+ * @test All tests were made on DOSBOX 0.74
+ * @code Code style of this project is about creating function pointers and loading these pointers with actual definitions of real functions.
+ * @bug there are some bugs on Clear function
+**/
+
+/**
+ * @brief Initialize function. It's for setting video mode for drawing graphics.
+ * @param void : it's for there is no parameter, and will be no parameter.
+**/
 typedef int (GFDAPIENTRYP GFDINITPROC)(void);
 GFD_CORE GFDINITPROC graphics_for_dos_gfdInit;
 #define gfdInit graphics_for_dos_gfdInit
 
+/**
+ * @brief Destroy function. It's for cleaning up everything.
+ * @param void : it's for there is no parameter, and will be no parameter.
+**/
 typedef void (GFDAPIENTRYP GFDDESTROYPROC)(void);
 GFD_CORE GFDDESTROYPROC graphics_for_dos_gfdDestroy;
 #define gfdDestroy graphics_for_dos_gfdDestroy
 
+/**
+ * @brief Draw Pixel function. It's for drawing a single pixel on to the screen.
+ * @param x (u32) x coordinate of the pixel which will be drawn. There is no any abstraction for pixel coordinates.
+ * @param y (u32) x coordinate of the pixel which will be drawn. There is no any abstraction for pixel coordinates.
+**/
 typedef void (GFDAPIENTRYP GFDDRAWPIXELPROC)(u32 x, u32 y);
 GFD_CORE GFDDRAWPIXELPROC graphics_for_dos_gfdDrawPixel;
 #define gfdDrawPixel graphics_for_dos_gfdDrawPixel
 
+/**
+ * @brief Set Pixel Color function. Changing the color of pixels which will be drawn after the call of this function.
+ * @param color (u8) the color code to change the color at a spesific memory addres.
+**/
 typedef void (GFDAPIENTRYP GFDSETPIXELCOLORPROC)(u8 color);
 GFD_CORE GFDSETPIXELCOLORPROC graphics_for_dos_gfdSetPixelColor;
 #define gfdSetPixelColor graphics_for_dos_gfdSetPixelColor
 
+/**
+ * @brief Draw Line function. It's a function for drawing a line between two points.
+ * @param x0 (f32) x coordinate of the first point on coordinate system which is affected by coordinate system abstraction.
+ * @param y0 (f32) y coordinate of the first point on coordinate system which is affected by coordinate system abstraction.
+ * @param x1 (f32) x coordinate of the second point on coordinate system which is affected by coordinate system abstraction.
+ * @param y1 (f32) y coordinate of the second point on coordinate system which is affected by coordinate system abstraction.
+**/
 typedef void (GFDAPIENTRYP GFDDRAWLINEPROC)(f32 x0, f32 y0, f32 x1, f32 y1);
 GFD_CORE GFDDRAWLINEPROC graphics_for_dos_gfdDrawLine;
 #define gfdDrawLine graphics_for_dos_gfdDrawLine
 
+/**
+ * @brief Draw Line Without Coordinate Abstraction function. It's a function for drawing a line between two points.
+ * @param x0 (u32) x coordinate of the first point on coordinate system which doesn't have any coordinate abstraction.
+ * @param y0 (u32) y coordinate of the first point on coordinate system which doesn't have any coordinate abstraction.
+ * @param x1 (u32) x coordinate of the second point on coordinate system which doesn't have any coordinate abstraction.
+ * @param y1 (u32) y coordinate of the second point on coordinate system which doesn't have any coordinate abstraction.
+**/
 typedef void (GFDAPIENTRYP GFDDRAWLINEWITHOUTCOORDABSTRACTIONPROC)(u32 x0, u32 y0, u32 x1, u32 y1);
 GFD_CORE GFDDRAWLINEWITHOUTCOORDABSTRACTIONPROC graphics_for_dos_gfdDrawLineWithoutCoordAbstraction;
 #define gfdDrawLineWithoutCoordAbstraction graphics_for_dos_gfdDrawLineWithoutCoordAbstraction
 
+/**
+ * @brief Draw Triangle function. It's for drawing an empty triangle which is becoming from three points.
+ * @param x0 (f32) x coordinate of the first point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y0 (f32) y coordinate of the first point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param x1 (f32) x coordinate of the second point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y1 (f32) y coordinate of the second point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param x2 (f32) x coordinate of the third point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y2 (f32) y coordinate of the third point for drawing a triangle on coordinate system which is affected by coordinate system abstraction.
+**/
 typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEPROC)(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2);
 GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle;
 #define gfdDrawTriangle graphics_for_dos_gfdDrawTriangle
 
+/**
+ * @brief Draw Triangle Filled function. It's for drawing a filled triangle which is becoming from three points.
+ * @param x0 (f32) x coordinate of the first point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y0 (f32) y coordinate of the first point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param x1 (f32) x coordinate of the second point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y1 (f32) y coordinate of the second point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param x2 (f32) x coordinate of the third point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+ * @param y2 (f32) y coordinate of the third point for drawing a filled triangle on coordinate system which is affected by coordinate system abstraction.
+**/
 typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEFILLEDPROC)(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2);
 GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled;
 #define gfdDrawTriangleFilled graphics_for_dos_gfdDrawTriangleFilled
 
+/**
+ * @brief Clear function. It's for clearing the screen black.
+ * @param void : it's for there is no parameter, and will be no parameter.
+**/
 typedef void (GFDAPIENTRYP GFDCLEARPROC)(void);
 GFD_CORE GFDCLEARPROC graphics_for_dos_gfdClear;
 #define gfdClear graphics_for_dos_gfdClear
