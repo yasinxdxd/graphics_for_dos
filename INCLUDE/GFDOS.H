@@ -69,6 +69,8 @@ typedef unsigned char      u8;
 typedef unsigned short     u16;
 typedef unsigned int       u32;
 typedef unsigned long long u64;
+typedef float f32;
+typedef double f64;
 
 /* Check for GCC */
 #if (__GNUC__ > 4)
@@ -92,23 +94,27 @@ typedef void (GFDAPIENTRYP GFDDESTROYPROC)(void);
 GFD_CORE GFDDESTROYPROC graphics_for_dos_gfdDestroy;
 #define gfdDestroy graphics_for_dos_gfdDestroy
 
-typedef void (GFDAPIENTRYP GFDDRAWPIXELPROC)(unsigned int x, unsigned int y);
+typedef void (GFDAPIENTRYP GFDDRAWPIXELPROC)(u32 x, u32 y);
 GFD_CORE GFDDRAWPIXELPROC graphics_for_dos_gfdDrawPixel;
 #define gfdDrawPixel graphics_for_dos_gfdDrawPixel
 
-typedef void (GFDAPIENTRYP GFDSETPIXELCOLORPROC)(unsigned char color);
+typedef void (GFDAPIENTRYP GFDSETPIXELCOLORPROC)(u8 color);
 GFD_CORE GFDSETPIXELCOLORPROC graphics_for_dos_gfdSetPixelColor;
 #define gfdSetPixelColor graphics_for_dos_gfdSetPixelColor
 
-typedef void (GFDAPIENTRYP GFDDRAWLINEPROC)(float x0, float y0, float x1, float y1);
+typedef void (GFDAPIENTRYP GFDDRAWLINEPROC)(f32 x0, f32 y0, f32 x1, f32 y1);
 GFD_CORE GFDDRAWLINEPROC graphics_for_dos_gfdDrawLine;
 #define gfdDrawLine graphics_for_dos_gfdDrawLine
 
-typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEPROC)(float x0, float y0, float x1, float y1, float x2, float y2);
+typedef void (GFDAPIENTRYP GFDDRAWLINEWITHOUTCOORDABSTRACTIONPROC)(u32 x0, u32 y0, u32 x1, u32 y1);
+GFD_CORE GFDDRAWLINEWITHOUTCOORDABSTRACTIONPROC graphics_for_dos_gfdDrawLineWithoutCoordAbstraction;
+#define gfdDrawLineWithoutCoordAbstraction graphics_for_dos_gfdDrawLineWithoutCoordAbstraction
+
+typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEPROC)(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2);
 GFD_CORE GFDDRAWTRIANGLEPROC graphics_for_dos_gfdDrawTriangle;
 #define gfdDrawTriangle graphics_for_dos_gfdDrawTriangle
 
-typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEFILLEDPROC)(float x0, float y0, float x1, float y1, float x2, float y2);
+typedef void (GFDAPIENTRYP GFDDRAWTRIANGLEFILLEDPROC)(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2);
 GFD_CORE GFDDRAWTRIANGLEFILLEDPROC graphics_for_dos_gfdDrawTriangleFilled;
 #define gfdDrawTriangleFilled graphics_for_dos_gfdDrawTriangleFilled
 
