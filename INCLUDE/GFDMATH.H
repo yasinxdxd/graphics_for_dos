@@ -9,20 +9,56 @@ extern "C" {
 #define RADIAN2DEGREE(R) R * 180.f / M_PI 
 #define DEGREE2RADIAN(D) D * M_PI / 180.f
 
-typedef struct _Matrix 
+typedef struct
 {
-    unsigned short rows;
-    unsigned short cols;
-    float data[4][4];
+    union
+    {
+        struct
+        {
+            float _00, _01, _02, _03;
+            float _10, _11, _12, _13;
+            float _20, _21, _22, _23;
+            float _30, _31, _32, _33;
+        };
+        float data[4][4];
+    };
+} Mat4x4;
 
-} m_Matrix;
-
-typedef struct _Vec 
+typedef struct
 {
-    unsigned short dim;
-    float data[4];
+    union
+    {
+        struct
+        {
+            float x, y;
+        };
+        float data[2];
+    };
+} Vec2;
 
-} m_Vec;
+typedef struct
+{
+    union
+    {
+        struct
+        {
+            float x, y, z;
+        };
+        float data[3];
+    };
+} Vec3;
+
+typedef struct
+{
+    union
+    {
+        struct
+        {
+            float x, y, z, w;
+        };
+        float data[4];
+    };
+} Vec4;
 
 m_Matrix* m_createMatrix(unsigned short rows, unsigned short cols);
 
